@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>diceRollsApp</title>
+
+    <style>
+        div {
+            padding: 10px;
+            border-bottom: 2px solid white;
+        }
+
+        body {
+            background-color: rgb(105, 214, 105);
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: grid; grid-template-columns: auto auto; border: none">
+        <div></div>
+        <div><button onclick="newSession()">nowa sesja</button></div>
+        <div style="text-align: right;">
+            <label>ID sesji: </label>
+            <input type="number" id="openId" value="0">
+        </div>
+        <div><button onclick="openSessionId()">otwórz sesję po jej ID</button></div>
+        <div style="text-align: right;">
+            <label>pełny adres sesji: </label>
+            <input type="text" id="openUrl">
+        </div>
+        <div><button onclick="openSessionUrl()">otwórz sesję po jej adresie</button></div>
+    </div>
+
+    <br><button id="devBtn" onclick="onDevBtn()" hidden>DevTools</button>
+
+    <script>
+        {
+            window.MainApi.onDevel(() => {
+                let btn = document.getElementById('devBtn');
+                btn.hidden = false;
+            });
+        }
+
+        function onDevBtn() {
+            window.MainApi.toggleDevel();
+        }
+
+        function newSession() {
+            window.MainApi.newSession();
+        }
+
+        function openSessionId() {
+            let idBox = document.getElementById('openId');
+            let id = parseInt(idBox.value);
+            if (!isNaN(id))
+                window.MainApi.newSession(id);
+        }
+
+        function openSessionUrl() {
+            let urlBox = document.getElementById('openUrl');
+            let url = String(urlBox.value);
+            window.MainApi.newSession(0, url);
+        }
+    </script>
+</body>
+
+</html>
